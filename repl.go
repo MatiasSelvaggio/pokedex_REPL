@@ -1,12 +1,11 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
-	"os"
 	"strings"
 
 	"github.com/MatiasSelvaggio/pokedex_REPL/internal/pokeapi"
+	"github.com/chzyer/readline"
 )
 
 const (
@@ -16,16 +15,25 @@ const (
 var commandRegistry map[string]cliCommand
 
 func startRepl(cfg *config) {
+	scanner, err := readline.New("Pokedex > ")
+	if err != nil {
+		panic(err)
+	}
+	defer scanner.Close()
 
-	scanner := bufio.NewScanner(os.Stdin)
 	for {
-		fmt.Print("Pokedex > ")
-		scanner.Scan()
-		text := scanner.Text()
-		for text == "" {
-			scanner.Scan()
-			text = scanner.Text()
+		text, err := scanner.Readline()
+		if err != nil {
+			break
 		}
+
+		text = strings.TrimSpace(text)
+		if text == "" {
+			continue
+		}
+
+		scanner.SaveHistory(text)
+
 		splitWords := cleanInput(text)
 		actionFound := false
 		firstWorld := splitWords[0]
