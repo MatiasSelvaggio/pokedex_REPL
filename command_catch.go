@@ -1,0 +1,48 @@
+package main
+
+import (
+	"fmt"
+	"math/rand"
+)
+
+const (
+	chanceToCapture float32 = .2
+)
+
+var pokedex map[string]Pokemon = map[string]Pokemon{}
+
+func commandCatch(cfg *config, args ...string) error {
+	if len(args) != 1 {
+		return fmt.Errorf("you must provide a pokemon name")
+	}
+	fmt.Printf("Throwing a Pokeball at %s...\n", args[0])
+	pokemonResp, err := cfg.pokeapiClient.PokemonData(args[0])
+	if err != nil {
+		return err
+	}
+
+	random := rand.Intn(pokemonResp.BaseExperience)
+	base70 := int(chanceToCapture * float32(pokemonResp.BaseExperience))
+	if random > base70 {
+		fmt.Printf("%s escaped!\n", pokemonResp.Name)
+		return nil
+	}
+	fmt.Printf("%s was captured!\n", pokemonResp.Name)
+	value, ok := pokedex[pokemonResp.Name]
+	if !ok {
+		pokedex[pokemonResp.Name] = Pokemon{
+			Count:          1,
+			Height:         pokemonResp.Height,
+			Weight:         pokemonResp.Weight,
+			Id:             pokemonResp.Id,
+			BaseExperience: pokemonResp.BaseExperience,
+			Name:           pokemonResp.Name,
+		}
+	} else {
+		value.Count++
+		pokedex[pokemonResp.Name] = value
+	}
+	// #this display pokedex catch's
+	//fmt.Println(pokedex)
+	return nil
+}

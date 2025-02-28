@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-func commandMap(cfg *config, args []string) error {
+func commandMap(cfg *config, args ...string) error {
 	locationsResp, err := cfg.pokeapiClient.ListLocations(cfg.next)
 	if err != nil {
 		return err
@@ -19,7 +19,7 @@ func commandMap(cfg *config, args []string) error {
 	return nil
 }
 
-func commandMapBack(cfg *config, args []string) error {
+func commandMapBack(cfg *config, args ...string) error {
 	locationsResp, err := cfg.pokeapiClient.ListLocations(cfg.previous)
 	if err != nil {
 		return err

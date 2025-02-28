@@ -31,7 +31,7 @@ func startRepl(cfg *config) {
 		firstWorld := splitWords[0]
 		for key, command := range commandRegistry {
 			if key == firstWorld {
-				command.callback(cfg, splitWords[1:])
+				command.callback(cfg, splitWords[1:]...)
 				actionFound = true
 			}
 		}
@@ -70,6 +70,11 @@ func init() {
 			description: "Display pokemons from a location",
 			callback:    commandExplore,
 		},
+		"catch": {
+			name:        "catch",
+			description: "try capturing a pokemon by name or id",
+			callback:    commandCatch,
+		},
 		"exit": {
 			name:        "exit",
 			description: "Exit the Pokedex",
@@ -81,7 +86,7 @@ func init() {
 type cliCommand struct {
 	name        string
 	description string
-	callback    func(*config, []string) error
+	callback    func(*config, ...string) error
 }
 
 type config struct {

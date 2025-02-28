@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-func commandHelp(cfg *config, args []string) error {
+func commandHelp(cfg *config, args ...string) error {
 	usage := ""
 	for _, value := range commandRegistry {
 		usage += fmt.Sprintf("\n%s: %s", value.name, value.description)
