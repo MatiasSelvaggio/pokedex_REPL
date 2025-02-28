@@ -93,4 +93,5 @@ type config struct {
 	pokeapiClient pokeapi.Client
 	next          *string
 	previous      *string
+	pokedex       map[string]Pokemon
 }

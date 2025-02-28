@@ -9,8 +9,6 @@ const (
 	chanceToCapture float32 = .2
 )
 
-var pokedex map[string]Pokemon = map[string]Pokemon{}
-
 func commandCatch(cfg *config, args ...string) error {
 	if len(args) != 1 {
 		return fmt.Errorf("you must provide a pokemon name")
@@ -28,9 +26,9 @@ func commandCatch(cfg *config, args ...string) error {
 		return nil
 	}
 	fmt.Printf("%s was captured!\n", pokemonResp.Name)
-	value, ok := pokedex[pokemonResp.Name]
+	value, ok := cfg.pokedex[pokemonResp.Name]
 	if !ok {
-		pokedex[pokemonResp.Name] = Pokemon{
+		cfg.pokedex[pokemonResp.Name] = Pokemon{
 			Count:          1,
 			Height:         pokemonResp.Height,
 			Weight:         pokemonResp.Weight,
@@ -40,7 +38,7 @@ func commandCatch(cfg *config, args ...string) error {
 		}
 	} else {
 		value.Count++
-		pokedex[pokemonResp.Name] = value
+		cfg.pokedex[pokemonResp.Name] = value
 	}
 	// #this display pokedex catch's
 	//fmt.Println(pokedex)
