@@ -35,6 +35,21 @@ func commandCatch(cfg *config, args ...string) error {
 			Id:             pokemonResp.Id,
 			BaseExperience: pokemonResp.BaseExperience,
 			Name:           pokemonResp.Name,
+			Stats: []struct {
+				BaseStat int
+				Effort   int
+				Stat     struct {
+					Name string
+					Url  string
+				}
+			}(pokemonResp.Stats),
+			Types: []struct {
+				Slot int
+				Type struct {
+					Name string
+					Url  string
+				}
+			}(pokemonResp.Types),
 		}
 	} else {
 		value.Count++

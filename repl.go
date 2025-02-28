@@ -67,13 +67,23 @@ func init() {
 		},
 		"explore": {
 			name:        "explore",
-			description: "Display pokemons from a location",
+			description: "Display a pokemon list from by location",
 			callback:    commandExplore,
 		},
 		"catch": {
 			name:        "catch",
 			description: "try capturing a pokemon by name or id",
 			callback:    commandCatch,
+		},
+		"inspect": {
+			name:        "inspect",
+			description: "show data from pokemon you have catch",
+			callback:    commandInspect,
+		},
+		"pokedex": {
+			name:        "pokedex",
+			description: "show the list of pokemon you had caught",
+			callback:    commandPokedex,
 		},
 		"exit": {
 			name:        "exit",
